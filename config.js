@@ -3,4 +3,5 @@ window.CAMPUS_CONFIG = {
   SUPABASE_URL: "https://lniqkqfsimgypwaesckq.supabase.co",
   SUPABASE_KEY: "//-OnBhvLuflP-BMWxZIaqXQ_0mSh_WP4",
   SITE_URL: "https://github.com/immortaldon25-png/campushub/" (email links return here)
+  SITE_URL: "https://github.com/immortaldon25-png/campushub/**
 };
