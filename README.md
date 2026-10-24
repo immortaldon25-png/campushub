@@ -45,3 +45,18 @@ Plain HTML, CSS and JavaScript, GSAP for motion, Supabase (login, database, file
 
 ## Status
 Early prototype. The Supabase, email and Android build steps have not been tested end to end yet. Report problems as GitHub issues.
+
+## Earning, tasks and security (new)
+- Run `supabase/update_tasks_and_limits.sql` once in the SQL Editor. It adds the tasks board and the Jeevanom-IQ daily limit.
+- Redeploy the `iq` function and add `ALLOWED_ORIGIN` (your site address, no path) and `IQ_DAILY_LIMIT` (default 30) to the secrets.
+- Supabase > Authentication > Attack Protection: turn on CAPTCHA (Cloudflare Turnstile is free) and leaked-password protection if your plan allows it.
+- Layers: app (input checks, escaped output, strict content policy) > Supabase login (signed tokens) > database row-level security > server function (signed-in check, daily limit, input caps) > AI provider (key kept on the server).
+- Payments between students and clients are agreed directly for now. Add escrow (for example Paystack or Flutterwave) only after you have registered as a business in your country.
+
+## Sponsored slots (new)
+1. Run `supabase/monetization.sql` once in the SQL Editor.
+2. Table Editor > opportunities > Insert row: name, kind, a short blurb, an https link, `sponsored` on, and `sponsor_name`. Set `starts_on` and `ends_on` for a paid period.
+3. Sponsored items appear first with a "Sponsored" label. Counts are one view and one click per device per day.
+4. Your report for a sponsor: run `select * from public.sponsor_report;` in the SQL Editor.
+5. Put your contact email in `CONTACT_EMAIL` in `config.js` to show the "Partner with us" card.
+6. Counts come from devices and can be gamed, so treat them as an estimate and also give sponsors a link with a UTM tag they can check in their own analytics.
