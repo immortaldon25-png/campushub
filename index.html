@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CampusHub</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FAFAF7;--surf:#fff;--ink:#14172B;--mut:#555B73;--pri:#2B3FD6;--onpri:#fff;--acc:#F5B700;--ok:#0E7A52;--bad:#C0392B;--line:#E2E3EA;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="dark"]{--bg:#171717;--surf:#202020;--ink:#F2F2F2;--mut:#A8A8B3;--pri:#F5B700;--onpri:#171717;--ok:#4FD1A0;--bad:#FF8A7A;--line:#303030;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 "Atkinson Hyperlegible",system-ui,sans-serif;padding-bottom:80px}
+h1,h2,h3{font-family:Geist,"Helvetica Neue",Arial,sans-serif;line-height:1.1;margin:0}
+main{max-width:640px;margin:0 auto;padding:20px 16px}
+.brand{font:800 18px Geist,"Helvetica Neue",Arial,sans-serif;display:flex;align-items:center;gap:8px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.lnk{font:inherit;font-size:14px;background:none;border:0;color:var(--mut);min-height:44px;padding:0 8px;cursor:pointer;text-decoration:underline}
+.brand i{width:14px;height:14px;background:var(--acc);border-radius:50%;display:inline-block}
+h1{font-size:clamp(30px,9vw,44px);letter-spacing:-.02em}
+.sub{color:var(--mut);margin:10px 0 18px}
+.hero{position:relative;overflow:hidden;background:#171717;color:#fff;border-radius:18px;min-height:min(78vh,560px);display:flex;flex-direction:column;justify-content:center;padding:28px 22px;margin-bottom:24px}
+.hx{position:absolute;aspect-ratio:1;background:radial-gradient(circle,rgba(245,183,0,.6),rgba(245,183,0,.1) 70%);clip-path:polygon(25% 5%,75% 5%,100% 50%,75% 95%,25% 95%,0 50%)}
+.hx:nth-child(1){width:34px!important}.hx:nth-child(2){width:18px!important}.hx:nth-child(3){width:42px!important}
+.hero .in{position:relative;max-width:340px;width:100%;margin:0 auto}
+.hero small{display:block;font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:#B8BAC6}
+.hero h1{font-size:clamp(52px,17vw,92px);line-height:.95;letter-spacing:-.03em;margin:4px 0 6px;text-transform:uppercase;color:#fff;text-shadow:0 0 24px rgba(245,183,0,.25)}
+.hero .tl{margin:0;text-align:right;color:var(--acc);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.hero .lk{display:flex;justify-content:space-between;gap:12px;margin-top:26px}
+.hero .lk button{font:inherit;font-size:14px;letter-spacing:.06em;text-transform:uppercase;color:#fff;background:none;border:0;border-bottom:2px solid #fff;padding:12px 2px;min-height:48px;cursor:pointer}
+label{font-weight:700;font-size:15px}
+input,textarea,select{width:100%;font:inherit;color:var(--ink);background:var(--surf);border:2px solid var(--line);border-radius:10px;padding:12px;margin:6px 0 12px}
+textarea{min-height:140px}
+:is(input,textarea,select,button,a):focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.btn{font:inherit;font-weight:700;background:var(--pri);color:var(--onpri);border:2px solid var(--pri);border-radius:10px;padding:10px 18px;min-height:48px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center}
+.btn.alt{background:transparent;color:var(--pri)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px}
+.chip{flex:none;font:inherit;border:2px solid var(--line);background:var(--surf);color:var(--ink);border-radius:99px;padding:8px 14px;min-height:44px;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px}
+.card h3{font-size:20px;margin-bottom:4px}
+.card p{margin:4px 0}
+.tag{display:inline-block;font-size:13px;font-weight:700;background:var(--acc);color:#14172B;border-radius:6px;padding:2px 8px;margin-bottom:8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+pre{white-space:pre-wrap;word-break:break-word;font:inherit;margin:6px 0}
+.ok{color:var(--ok);font-weight:700}.bad{color:var(--bad)}
+.note{font-size:14px;color:var(--mut);margin-top:20px}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--surf);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;font:inherit;font-size:13px;font-weight:700;color:var(--mut);background:none;border:0;border-top:4px solid transparent;padding:14px 2px;min-height:56px;cursor:pointer}
+nav button[aria-current=page]{color:var(--pri);border-top-color:var(--acc)}
+</style></head>
+<body>
+<main><header class="top"><div class="brand"><i></i>CampusHub</div><div id="who"></div></header><div id="app"></div></main>
+<nav id="nav" aria-label="Sections"></nav>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+const T=["Explore","Market","Data","Promote","Study","IQ"];
+const OPP=[
+["Chevening Scholarships","Scholarship","UK government scholarships for a one-year master’s degree. Open to applicants from many countries.","https://www.chevening.org"],
+["Fulbright Program","Scholarship","US government exchange awards for study, research and teaching. Rules differ by country.","https://fulbrightprogram.org"],
+["Mastercard Foundation Scholars","Scholarship","Scholarships and support for talented students, with a focus on Africa.","https://mastercardfdn.org/all/scholars/"],
+["GitHub Student Developer Pack","Free tools","Free developer tools and credits when you verify as a student.","https://education.github.com/pack"],
+["Canva for Education","Free tools","Free design tools for students and teachers. Make flyers and posters at no cost.","https://www.canva.com/education/"],
+["Notion for Education","Free tools","Free upgraded plan for students. Organise notes, tasks and projects.","https://www.notion.so/product/notion-for-education"],
+["freeCodeCamp","Learning","Free coding lessons and certificates. Works well on a phone.","https://www.freecodecamp.org"],
+["CS50 (Harvard)","Learning","Free introductory computer science course with video lectures.","https://cs50.harvard.edu/x"],
+["Microsoft Learn","Learning","Free self-paced training for cloud, data and AI skills.","https://learn.microsoft.com/training"],
+["Coursera financial aid","Learning","Many courses offer financial aid. Look for the aid link on a course page.","https://www.coursera.org"],
+["MLH hackathons","Compete","Student hackathons, many online and free to join. Build a team and a portfolio.","https://mlh.io"],
+["Google Summer of Code","Compete","Paid open-source projects with mentors. Check current eligibility.","https://summerofcode.withgoogle.com"],
+["Kaggle","Compete","Free datasets, contests and notebooks to practise data science.","https://www.kaggle.com"]];
+let tab=0,flt="All",q="",pre="";
+const saved=new Set(ld("saved",[]));let listings=ld("listings",[]);
+let user=ld("user","");document.documentElement.dataset.theme=ld("theme","dark");
+
+function view(){
+ $("#who").innerHTML=user?`<button class="lnk" data-a="theme">Light or dark</button><button class="lnk" data-a="out">Sign out</button>`:"";
+ if(!user){$("#nav").innerHTML="";gate();motion();return}
+ $("#nav").innerHTML=T.map((t,i)=>`<button data-t="${i}" ${i===tab?'aria-current="page"':""}>${t}</button>`).join("");
+ [v0,v1,v2,v3,v4,v5][tab]();scrollTo(0,0);motion()}
+
+function v0(){
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:62%;top:6%;width:96px"></span><span class="hx" aria-hidden="true" style="left:8%;top:20%;width:48px"></span><span class="hx" aria-hidden="true" style="left:16%;top:76%;width:110px"></span><div class="in"><small>Hello, ${esc(user)}</small><h1>Campus</h1><p class="tl">learn, earn, sell for free</p><div class="lk"><button data-a="focusq">Find opportunities</button><button data-t="1">Start selling</button></div></div></section><h2 style="font-size:24px">Opportunities that cost nothing to try</h2><p class="sub">Save the ones you want, then check each site for current deadlines.</p><label for="q">Search</label><input id="q" type="search" placeholder="Try: scholarship"><div class="chips" id="chips"></div><div id="list"></div><p class="note">Saved items stay on this device. Always confirm details on the official site.</p>`;
+ $("#q").value=q;$("#q").oninput=e=>{q=e.target.value;list()};list()}
+function list(){
+ const F=["All","Saved","Scholarship","Free tools","Learning","Compete"];
+ $("#chips").innerHTML=F.map(f=>`<button class="chip" data-f="${f}" aria-pressed="${f===flt}">${f}</button>`).join("");
+ const r=OPP.filter(o=>(flt==="All"||(flt==="Saved"?saved.has(o[0]):o[1]===flt))&&(o[0]+o[1]+o[2]).toLowerCase().includes(q.toLowerCase()));
+ $("#list").innerHTML=r.length?r.map(o=>`<article class="card"><span class="tag">${o[1]}</span><h3>${o[0]}</h3><p>${o[2]}</p><div class="row"><a class="btn" href="${o[3]}" target="_blank" rel="noopener">Open site</a><button class="btn alt" data-s="${o[0]}">${saved.has(o[0])?"Saved":"Save"}</button></div></article>`).join(""):`<p class="sub">Nothing matches. Clear the search or pick another filter.</p>`}
+
+function v1Local(){
+ const ex=[{t:"Example: Exam revision notes pack",p:"$3",x:1},{t:"Example: Typing and data entry, per page",p:"$1",x:1}];
+ const all=[...listings,...ex];
+ $("#app").innerHTML=`<h1>Sell with no shop and no stock.</h1><p class="sub">List notes, designs, tutoring or typing. Buyers message you on WhatsApp, so there are no fees. Share your listing on your status and in class groups.</p>
+ <div class="card"><label for="lt">What are you selling?</label><input id="lt" value="${esc(pre)}" placeholder="Biology study pack">
+ <label for="lp">Price</label><input id="lp" placeholder="$2 or 500 naira">
+ <label for="ln">Your WhatsApp number with country code, digits only</label><input id="ln" inputmode="numeric" placeholder="2348012345678">
+ <label for="mf">Photo or video (optional)</label><input id="mf" type="file" accept="image/*,video/*"><div id="mp"></div><p id="lm" class="bad" role="alert"></p><button class="btn" data-a="add">Add listing</button></div>
+ ${all.map((l,i)=>`<article class="card"><span class="tag">${l.x?"Example":l.mine===false?"Seller":"Your listing"}</span><h3>${esc(l.t)}</h3>${l.img?`<img src="${l.img}" alt="${esc(l.t)}" style="width:100%;border-radius:10px;margin:8px 0">`:""}${l.vid?`<video src="${l.vid}" controls playsinline style="width:100%;border-radius:10px;margin:8px 0"></video>`:""}<p>${esc(l.p)}</p>${l.x?"":`<div class="row">${l.mine===false?`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/${l.n}?text=${encodeURIComponent("Hi, I am interested in: "+l.t)}">Message seller</a>`:`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(l.t+" - "+l.p+". Order on WhatsApp: https://wa.me/"+l.n)}">Share on WhatsApp</a><button class="btn alt" data-a="del" data-i="${i}">Remove</button>`}</div>`}</article>`).join("")}
+ <p class="note">Listings are saved on this device. A shared marketplace where other students see them needs the backend in the build plan.</p>`;pre="";mediaUp()}
+function addLocal(){
+ const t=$("#lt").value.trim(),p=$("#lp").value.trim(),n=$("#ln").value.replace(/\D/g,"");
+ if(!t||!p||n.length<7||n.length>15){$("#lm").textContent="Add a title, a price, and a WhatsApp number with country code.";return}
+ listings.unshift({t,p,n,img:M.img,vid:M.vid});M={};sv2();v1()}
+function delLocal(b){listings.splice(+b.dataset.i,1);sv2();v1()}
+
+function v2(){
+ $("#app").innerHTML=`<h1>Clean data. Get paid for accuracy.</h1><p class="sub">Paste rows in this order: name, phone, email. This tool finds blanks, bad emails, bad phones and duplicates, so you hand over clean work.</p>
+ <label for="d">Rows</label><textarea id="d" placeholder="ada obi, 08012345678, ada@mail.com&#10;ada obi, 08012345678, ada@mail.com&#10;Tunde, 123, tunde@mail"></textarea>
+ <button class="btn" data-a="chk">Check and clean</button><div id="o" style="margin-top:16px"></div>`}
+function chk(){
+ const L=$("#d").value.split("\n").map(l=>l.trim()).filter(Boolean),seen=new Set(),good=[],bad=[];
+ L.forEach((l,i)=>{
+  const p=l.split(/[,;\t]/).map(x=>x.trim()),pr=[];
+  if(p.length<3||p.some(x=>!x))pr.push("missing field");
+  const ph=(p[1]||"").replace(/[^\d+]/g,""),dg=ph.replace(/\D/g,"");
+  if(p[1]&&(dg.length<7||dg.length>15))pr.push("check phone");
+  if(p[2]&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p[2]))pr.push("bad email");
+  const k=[(p[0]||"").toLowerCase(),dg,(p[2]||"").toLowerCase()].join("|");
+  if(seen.has(k))pr.push("duplicate");
+  seen.add(k);
+  pr.length?bad.push(`Row ${i+1}: ${pr.join(", ")}`):good.push([p[0].replace(/(^|\s)\S/g,c=>c.toUpperCase()),ph,p[2].toLowerCase()].join(","))});
+ $("#o").innerHTML=L.length?`<p><span class="ok">${good.length} clean</span> of ${L.length} rows. ${bad.length?`<span class="bad">${bad.length} need fixing.</span>`:""}</p>${bad.length?`<div class="card">${bad.map(esc).join("<br>")}</div>`:""}${good.length?`<div class="card"><pre id="csv">${esc(good.join("\n"))}</pre><div class="row"><button class="btn alt" data-c="csv">Copy clean rows</button><span id="dlb"></span></div></div>`:""}`:`<p class="bad">Paste some rows first.</p>`;dlup()}
+
+function v3(){
+ $("#app").innerHTML=`<h1>Turn what you sell into posts.</h1><p class="sub">Fill three boxes. Get ready-to-send text for WhatsApp, Instagram or TikTok, and a flyer headline.</p>
+ <label for="a">What you sell</label><input id="a" placeholder="Hand-written physics notes">
+ <label for="b">Price</label><input id="b" placeholder="$2">
+ <label for="c">Contact</label><input id="c" placeholder="WhatsApp +234 801 234 5678">
+ <label for="e">Tone</label><select id="e"><option>Friendly</option><option>Professional</option><option>Excited</option></select>
+ <button class="btn" data-a="gen">Write my posts</button><div id="o" style="margin-top:16px"></div>`}
+function gen(){
+ const a=$("#a").value.trim(),b=$("#b").value.trim(),c=$("#c").value.trim(),t=$("#e").value;
+ if(!a||!b||!c){$("#o").innerHTML=`<p class="bad" role="alert">Fill in what you sell, the price and your contact.</p>`;return}
+ const H={Friendly:["Hey friends!","Message me to order."],Professional:["Now available:","To place an order, contact me."],Excited:["Big news!","Order now before it sells out."]}[t];
+ const P=[["WhatsApp status",`${H[0]} ${a} for ${b}.\n${H[1]}\n${c}`],
+ ["Instagram or TikTok caption",`${a}. Made by a student, for students.\nPrice: ${b}\nOrder: ${c}\n#StudentHustle #CampusLife #SupportStudentBusiness`],
+ ["Flyer headline",`${a.toUpperCase()}\n${b}\nOrder: ${c}`]];
+ $("#o").innerHTML=P.map((p,i)=>`<article class="card"><span class="tag">${p[0]}</span><pre id="p${i}">${esc(p[1])}</pre><div class="row"><button class="btn alt" data-c="p${i}">Copy</button>${i===0?`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(p[1])}">Send on WhatsApp</a>`:""}</div></article>`).join("")}
+
+function gateLocal(){
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:64%;top:8%;width:90px"></span><span class="hx" aria-hidden="true" style="left:10%;top:72%;width:100px"></span><div class="in"><small>Sign in</small><h1>Hello</h1><p class="tl">what should we call you?</p><label for="un" style="display:block;margin-top:22px;color:#fff">Username</label><input id="un" maxlength="20" autocomplete="nickname" placeholder="Ada"><p id="um" class="bad" role="alert"></p><button class="btn" data-a="login">Continue</button></div></section><p class="note">Your profile, saves and listings stay on this device. Accounts that work across phones come with the backend.</p>`;
+ $("#un").onkeydown=e=>{if(e.key==="Enter")login()}}
+function login(){const n=$("#un").value.trim().replace(/\s+/g," ");if(n.length<2){$("#um").textContent="Enter at least 2 characters.";return}user=n;sv("user",n);tab=0;view()}
+function out(){if(sb){sb.auth.signOut().then(()=>{me=null;user="";saved.clear();view()})}else{user="";sv("user","");view()}}
+function theme(){const t=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=t;sv("theme",t)}
+function dlup(){window.claude&&claude.use("downloads").then(d=>{if(d&&$("#csv")&&$("#dlb"))$("#dlb").innerHTML=`<button class="btn" data-a="dl">Download CSV</button>`}).catch(()=>{})}
+async function dl(){try{const d=await claude.use("downloads");await d.save({filename:"clean-data.csv",data:"name,phone,email\n"+$("#csv").textContent})}catch(e){}}
+function motion(){
+ if(!window.gsap||!$(".hero")||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
+ gsap.from(".hero .in > *",{y:18,opacity:0,duration:.7,stagger:.1,ease:"power3.out"});
+ document.querySelectorAll(".hx").forEach((e,i)=>gsap.to(e,{y:i%2?-14:14,x:i%2?8:-8,rotation:i%2?25:-25,duration:3+i,repeat:-1,yoyo:true,ease:"sine.inOut"}));
+ gsap.to(".hero h1",{textShadow:"0 0 44px rgba(245,183,0,.45)",duration:2.4,repeat:-1,yoyo:true,ease:"sine.inOut"})}
+const Z={sub:"notes",text:ld("notes",""),len:3,deck:[],flip:false,done:false,qs:[],qi:0,sc:0,ans:null,src:"notes",rec:null,ai:"ask"};
+const SUBS=[["notes","Notes"],["sum","Summary"],["cards","Cards"],["quiz","Quiz"],["map","Map"],["listen","Listen"],["export","Export"],["ai","Ask AI"]];
+const SW=new Set("about after again also because before being between could does during each every from have having into more most other over same should some such than that their them then there these they this those through under very were what when where which while with would your".split(" "));
+let tmr=null,tleft=1500;
+const fm=s=>String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+function an(){const t=Z.text.trim();if(an.k===t)return an.v;
+ const sen=t.split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(s=>s.length>25),f={};
+ (t.toLowerCase().match(/\p{L}{5,}/gu)||[]).forEach(w=>{if(!SW.has(w))f[w]=(f[w]||0)+1});
+ const kw=Object.keys(f).sort((a,b)=>f[b]-f[a]).slice(0,12);
+ const sc=s=>((s.toLowerCase().match(/\p{L}{5,}/gu)||[]).reduce((a,w)=>a+(f[w]||0),0))/Math.sqrt(s.length);
+ const rank=[...sen].sort((a,b)=>sc(b)-sc(a)),cards=[];
+ sen.forEach(s=>{const m=s.match(/^(.{3,60}?)\s+(is|are|means|refers to)\s+(.{10,})/i);if(m&&cards.length<12)cards.push([`What ${m[2].toLowerCase()==="are"?"are":"is"} ${m[1].replace(/^(the|a|an)\s+/i,"")}?`,s])});
+ an.k=t;an.v={sen,kw,rank,cards};return an.v}
+const topS=n=>{const a=an();return a.rank.slice(0,n).sort((x,y)=>a.sen.indexOf(x)-a.sen.indexOf(y))};
+function v4(){
+ $("#app").innerHTML=`<h1>Study faster. Sell what you learn.</h1><p class="sub">Notes in, study tools out. Everything works on your phone with no sign-up, except the Ask AI tab.</p><div class="chips">${SUBS.map(s=>`<button class="chip" data-z="sub" data-v="${s[0]}" aria-pressed="${Z.sub===s[0]}">${s[1]}</button>`).join("")}</div><div id="sb"></div>`;
+ sbody()}
+function sbody(){({notes:sNotes,sum:sSum,cards:sCards,quiz:sQuiz,map:sMap,listen:sListen,export:sExport,ai:sAI})[Z.sub]()}
+function need(){$("#sb").innerHTML=`<p class="sub">Add at least two full sentences in Notes first.</p><button class="btn" data-z="sub" data-v="notes">Go to Notes</button>`}
+function sNotes(){
+ $("#sb").innerHTML=`<label for="n">Your notes</label><textarea id="n" placeholder="Paste or type lecture notes. You can also dictate or import a file."></textarea><div class="row"><label class="btn alt" for="fi" style="cursor:pointer">Import file</label><input id="fi" type="file" accept=".txt,.md,.csv,text/plain" hidden><button class="btn alt" data-z="dict">Dictate</button><button class="btn alt" data-z="clear">Clear</button></div><p id="dm" class="note" role="status"></p><article class="card"><h3>Focus timer</h3><p id="tm" style="font:800 40px Geist,sans-serif;margin:6px 0">${fm(tleft)}</p><div class="row"><button class="btn" data-z="tstart">Start or pause</button><button class="btn alt" data-z="treset">Reset</button></div></article><article class="card"><h3>Video, PDF or audio?</h3><p>Use NoteGPT to transcribe or summarize them, then paste the notes here.</p><a class="btn alt" href="https://notegpt.io" target="_blank" rel="noopener">Open NoteGPT</a></article>`;
+ const n=$("#n");n.value=Z.text;n.oninput=()=>{Z.text=n.value;sv("notes",Z.text)};
+ $("#fi").onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>500000){$("#dm").textContent="That file is too large. Use a file under 500 KB.";return}const r=new FileReader();r.onload=()=>{Z.text=String(r.result).slice(0,60000);sv("notes",Z.text);n.value=Z.text;$("#dm").textContent="Imported "+f.name};r.readAsText(f)}}
+function dict(b){const R=window.SpeechRecognition||window.webkitSpeechRecognition,m=$("#dm");
+ if(!R){m.textContent="Dictation is not supported in this browser. Try Chrome.";return}
+ if(Z.rec){Z.rec.stop();return}
+ const r=new R();r.continuous=true;r.interimResults=false;r.lang=navigator.language||"en-US";
+ r.onresult=e=>{for(let i=e.resultIndex;i<e.results.length;i++)if(e.results[i].isFinal)Z.text+=(Z.text&&!/\s$/.test(Z.text)?" ":"")+e.results[i][0].transcript.trim()+". ";sv("notes",Z.text);const n=$("#n");if(n)n.value=Z.text};
+ r.onerror=e=>{m.textContent="Microphone problem: "+e.error+". Allow microphone access and try again."};
+ r.onend=()=>{Z.rec=null;b.textContent="Dictate"};
+ r.start();Z.rec=r;b.textContent="Stop dictating";m.textContent="Listening. Speak clearly."}
+function tstart(){if(tmr){clearInterval(tmr);tmr=null;return}tmr=setInterval(()=>{tleft--;const e=$("#tm");if(e)e.textContent=fm(tleft);if(tleft<=0){clearInterval(tmr);tmr=null;tleft=1500;if(e)e.textContent="Break time"}},1000)}
+function treset(){clearInterval(tmr);tmr=null;tleft=1500;const e=$("#tm");if(e)e.textContent=fm(tleft)}
+function sSum(){const a=an();if(a.sen.length<2)return need();
+ $("#sb").innerHTML=`<div class="chips">${[[3,"Short"],[6,"Medium"],[10,"Long"]].map(l=>`<button class="chip" data-z="len" data-v="${l[0]}" aria-pressed="${Z.len===l[0]}">${l[1]}</button>`).join("")}</div><article class="card"><span class="tag">Summary</span>${topS(Z.len).map(s=>`<p>${esc(s)}</p>`).join("")}</article><article class="card"><span class="tag">Key terms</span><p>${a.kw.slice(0,10).map(esc).join(", ")}</p></article>`}
+function sCards(){const a=an();
+ if(!a.cards.length){$("#sb").innerHTML=`<p class="sub">Flashcards come from sentences like “X is …” or “X are …”. Add a few definitions to your notes.</p><button class="btn" data-z="sub" data-v="notes">Go to Notes</button>`;return}
+ if(Z.dk!==an.k){Z.deck=a.cards.map((c,i)=>i);Z.done=false;Z.flip=false;Z.dk=an.k}
+ const i=Z.deck[0];
+ $("#sb").innerHTML=Z.deck.length?`<p class="sub">${Z.deck.length} card${Z.deck.length>1?"s":""} left. Tap the card to flip it.</p><button class="card" data-z="flip" style="display:block;width:100%;text-align:left;font:inherit;color:inherit;min-height:140px;cursor:pointer"><span class="tag">${Z.flip?"Answer":"Question"}</span><h3>${esc(a.cards[i][Z.flip?1:0])}</h3></button><div class="row"><button class="btn alt" data-z="again">Again</button><button class="btn" data-z="got">Got it</button></div>`:`<article class="card"><h3>Deck done</h3><p>You went through all ${a.cards.length} cards.</p></article><button class="btn" data-z="reset">Study again</button>`}
+function mkQuiz(){const a=an(),out=[],used=new Set();
+ for(const s of a.rank){if(out.length>=8)break;const l=s.toLowerCase(),k=a.kw.find(w=>l.includes(w)&&!used.has(w));if(!k)continue;used.add(k);
+  const o=[k,...a.kw.filter(w=>w!==k).sort(()=>Math.random()-.5).slice(0,3)].sort(()=>Math.random()-.5);
+  out.push({q:s.replace(new RegExp(k,"i"),"_____"),a:k,o})}
+ return out}
+function sQuiz(){const a=an();if(Z.qk!==an.k){Z.qs=mkQuiz();Z.qi=0;Z.sc=0;Z.ans=null;Z.qk=an.k}
+ if(!Z.qs.length||a.kw.length<4){$("#sb").innerHTML=`<p class="sub">Add more notes to build a quiz. It needs a few full sentences with repeated key terms.</p><button class="btn" data-z="sub" data-v="notes">Go to Notes</button>`;return}
+ if(Z.qi>=Z.qs.length){$("#sb").innerHTML=`<article class="card"><h3>Score: ${Z.sc} of ${Z.qs.length}</h3></article><button class="btn" data-z="qreset">Try again</button>`;return}
+ const q=Z.qs[Z.qi];
+ $("#sb").innerHTML=`<p class="sub">Question ${Z.qi+1} of ${Z.qs.length}. Pick the missing word.</p><article class="card"><p>${esc(q.q)}</p></article>${q.o.map(o=>`<button class="btn alt" style="width:100%;margin-bottom:10px" data-z="opt" data-v="${esc(o)}" ${Z.ans?"disabled":""}>${esc(o)}${Z.ans&&o===q.a?" ✓":""}${Z.ans===o&&o!==q.a?" ✗":""}</button>`).join("")}${Z.ans?`<p class="${Z.ans===q.a?"ok":"bad"}" role="status">${Z.ans===q.a?"Correct.":"The answer is "+esc(q.a)+"."}</p><button class="btn" data-z="next">Next</button>`:""}`}
+function sMap(){const a=an();if(a.sen.length<2)return need();
+ const title=a.rank[0].split(/\s+/).slice(0,6).join(" ");
+ $("#sb").innerHTML=`<article class="card"><span class="tag">Main idea</span><h3>${esc(title)}…</h3></article>`+a.kw.slice(0,6).map(k=>`<div style="border-left:3px solid var(--pri);margin:0 0 14px 10px;padding-left:12px"><b>${esc(k)}</b>${a.sen.filter(s=>s.toLowerCase().includes(k)).slice(0,2).map(s=>`<p style="margin:6px 0;color:var(--mut)">${esc(s.length>110?s.slice(0,107)+"…":s)}</p>`).join("")}</div>`).join("")}
+function sListen(){
+ if(!window.speechSynthesis){$("#sb").innerHTML=`<p class="sub">Read-aloud is not supported in this browser.</p>`;return}
+ $("#sb").innerHTML=`<label for="rt">Speed</label><select id="rt"><option value="0.8">Slow</option><option value="1" selected>Normal</option><option value="1.25">Fast</option><option value="1.5">Faster</option></select><label for="vo">Voice and language</label><select id="vo"></select><div class="chips"><button class="chip" data-z="src" data-v="notes" aria-pressed="${Z.src==="notes"}">Read notes</button><button class="chip" data-z="src" data-v="sum" aria-pressed="${Z.src==="sum"}">Read summary</button></div><div class="row"><button class="btn" data-z="play">Play</button><button class="btn alt" data-z="pause">Pause or resume</button><button class="btn alt" data-z="stop">Stop</button></div><p class="note">Voices come from your phone. Add more languages in your phone settings.</p>`;
+ const fill=()=>{const v=speechSynthesis.getVoices();$("#vo").innerHTML=v.length?v.map((x,i)=>`<option value="${i}">${esc(x.name)} (${esc(x.lang)})</option>`).join(""):`<option value="">Default voice</option>`};fill();speechSynthesis.onvoiceschanged=fill}
+function play(){speechSynthesis.cancel();const t=Z.src==="sum"?topS(Z.len).join(" "):Z.text.trim();if(!t)return;
+ const vs=speechSynthesis.getVoices(),vi=$("#vo")?$("#vo").value:"",rate=+($("#rt")?$("#rt").value:1);
+ (t.match(/[^.!?\n]+[.!?]*/g)||[]).map(s=>s.trim()).filter(Boolean).forEach(c=>{const u=new SpeechSynthesisUtterance(c);u.rate=rate;if(vi!==""&&vs[vi]){u.voice=vs[vi];u.lang=vs[vi].lang}speechSynthesis.speak(u)})}
+function md(){const a=an();return "# Study pack\n\n## Summary\n"+topS(6).map(s=>"- "+s).join("\n")+"\n\n## Key terms\n"+a.kw.slice(0,10).join(", ")+"\n\n## Flashcards\n"+a.cards.map(c=>"**"+c[0]+"**\n"+c[1]).join("\n\n")+"\n"}
+function csvc(){return an().cards.map(c=>'"'+c[0].replace(/"/g,'""')+'","'+c[1].replace(/"/g,'""')+'"').join("\n")}
+function slides(){const a=an();return a.kw.slice(0,6).map((k,i)=>"Slide "+(i+1)+": "+k.charAt(0).toUpperCase()+k.slice(1)+"\n"+a.sen.filter(s=>s.toLowerCase().includes(k)).slice(0,3).map(s=>"- "+(s.length>90?s.slice(0,87)+"...":s)).join("\n")).join("\n\n")}
+function sExport(){const a=an();if(a.sen.length<2)return need();
+ $("#sb").innerHTML=`<article class="card"><span class="tag">Study pack</span><pre id="xo" style="max-height:260px;overflow:auto">${esc(md())}</pre><div class="row"><button class="btn alt" data-c="xo">Copy</button><span id="xd"></span></div></article><article class="card"><span class="tag">Slide outline</span><pre id="so" style="max-height:200px;overflow:auto">${esc(slides())}</pre><button class="btn alt" data-c="so">Copy</button></article><button class="btn" data-z="sell">Sell this as a study pack</button>`;
+ window.claude&&claude.use("downloads").then(d=>{if(d&&$("#xd"))$("#xd").innerHTML=`<button class="btn" data-z="dmd">Download .md</button><button class="btn alt" data-z="dcsv" style="margin-left:8px">Anki CSV</button>`}).catch(()=>{})}
+async function dsave(name,data){try{const d=await claude.use("downloads");await d.save({filename:name,data})}catch(e){}}
+function sell(){pre="Study pack: "+Z.text.split(/\s+/).slice(0,4).join(" ");tab=1;view()}
+async function sAI(){
+ $("#sb").innerHTML=`<p class="sub">Checking…</p>`;
+ let s=null;try{s=window.claude?await claude.use("sample"):(sb&&me?(await neoMode(),NEO.s):null)}catch(e){}
+ if(!s){$("#sb").innerHTML=`<article class="card"><h3>Jeevanom-IQ tools</h3><p>Translate, explain simply, draft an essay, build slides or ask your notes questions. These need an internet connection and a signed-in account. The other tabs work everywhere.</p></article>`;return}
+ const A=[["ask","Ask your notes"],["tr","Translate"],["simple","Explain simply"],["essay","Draft essay"],["slides","Slide outline"],["quiz","Exam questions"]];
+ $("#sb").innerHTML=`<div class="chips">${A.map(x=>`<button class="chip" data-z="aik" data-v="${x[0]}" aria-pressed="${Z.ai===x[0]}">${x[1]}</button>`).join("")}</div><label for="ax">${Z.ai==="tr"?"Translate into which language?":Z.ai==="ask"?"Your question":"Extra instructions (optional)"}</label><input id="ax" placeholder="${Z.ai==="tr"?"French":Z.ai==="ask"?"What are the main ideas?":""}"><button class="btn" data-z="run">Ask Jeevanom-IQ</button><article class="card" style="margin-top:14px"><pre id="ao">Your answer appears here.</pre><button class="btn alt" data-c="ao">Copy</button></article>`}
+async function run(){const o=$("#ao"),x=($("#ax").value||"").trim();
+ const P={ask:`Answer this question using only the notes: ${x||"What are the main ideas?"}`,tr:`Translate these study notes into ${x||"French"}. Keep the structure.`,simple:"Explain these notes simply, as for a 12-year-old, with one example.",essay:"Write a clear 300-word essay from these notes with an introduction, body and conclusion.",slides:"Make a slide outline: 8 slides, each with a title and 3 short bullets.",quiz:"Write 5 exam-style questions with short model answers."};
+ if(!Z.text.trim()){o.textContent="Add notes first.";return}
+ o.textContent="Thinking…";
+ try{const s=window.claude?await claude.use("sample"):NEO.s;const r=await s(P[Z.ai]+(x&&Z.ai!=="ask"&&Z.ai!=="tr"?"\nExtra instructions: "+x:"")+"\n\nPlain text only, no markdown symbols.\n\nNOTES:\n"+Z.text.slice(0,6000),{modelTier:"quick",onText:({text})=>{o.textContent=text}});o.textContent=r.text}catch(e){o.textContent="Jeevanom-IQ could not answer right now. Try again later."}}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-z]");if(!b)return;const z=b.dataset.z,v=b.dataset.v;
+ const go={sub:()=>{Z.sub=v;v4()},len:()=>{Z.len=+v;sbody()},flip:()=>{Z.flip=!Z.flip;sCards()},again:()=>{Z.deck.push(Z.deck.shift());Z.flip=false;sCards()},got:()=>{Z.deck.shift();Z.flip=false;if(!Z.deck.length)Z.done=true;sCards()},reset:()=>{Z.dk=null;sCards()},opt:()=>{Z.ans=v;if(v===Z.qs[Z.qi].a)Z.sc++;sQuiz()},next:()=>{Z.qi++;Z.ans=null;sQuiz()},qreset:()=>{Z.qk=null;sQuiz()},src:()=>{Z.src=v;sListen()},play,pause:()=>{speechSynthesis.paused?speechSynthesis.resume():speechSynthesis.pause()},stop:()=>speechSynthesis.cancel(),dict:()=>dict(b),clear:()=>{Z.text="";sv("notes","");sNotes()},tstart,treset,dmd:()=>dsave("study-pack.md",md()),dcsv:()=>dsave("flashcards.csv",csvc()),sell,aik:()=>{Z.ai=v;sAI()},run};
+ if(go[z])go[z]()});
+
+let M={};const sv2=()=>sv("listings",listings.map(({vid,...r})=>r));
+function mediaUp(){const f=$("#mf");if(!f)return;f.onchange=e=>{const file=e.target.files[0],p=$("#mp");M={};p.innerHTML="";if(!file)return;M.file=file;
+ if(file.type.startsWith("image/")){const im=new Image();im.onload=()=>{const k=Math.min(1,640/im.width),c=document.createElement("canvas");c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext("2d").drawImage(im,0,0,c.width,c.height);M.img=c.toDataURL("image/jpeg",.7);p.innerHTML=`<img src="${M.img}" alt="Preview of your upload" style="width:100%;border-radius:10px;margin-bottom:12px">`;URL.revokeObjectURL(im.src)};im.onerror=()=>{p.innerHTML=`<p class="bad">Could not read that image.</p>`};im.src=URL.createObjectURL(file)}
+ else if(file.type.startsWith("video/")){if(file.size>50e6){p.innerHTML=`<p class="bad">That video is over 50 MB. Choose a shorter one.</p>`;return}M.vid=URL.createObjectURL(file);p.innerHTML=`<video src="${M.vid}" controls playsinline style="width:100%;border-radius:10px"></video><p class="note">Videos show this session only. Permanent video storage comes with the backend.</p>`}
+ else p.innerHTML=`<p class="bad">Choose a photo or a video.</p>`}}
+const NEO={log:[],busy:false,s:null};
+const NP="You are Jeevanom-IQ, the friendly AI guide inside CampusHub, an app for students with little or no money. Give short, practical, honest answers in simple English, plain text only. Prefer free options. Never invent deadlines, prices or eligibility; tell the student to confirm on the official site. Opportunities you know: "+OPP.map(o=>o[0]+" ("+o[1]+")").join("; ")+". Suggest CampusHub tabs when useful: Explore, Market, Data, Promote, Study.";
+function v5(){
+ $("#app").innerHTML=`<h1>Jeevanom-IQ</h1><p class="sub">Your campus guide. Ask about scholarships, earning with no capital, selling, or studying.</p><span class="tag" id="nm">Checking mode…</span><div class="chips">${["Find me a scholarship","How do I start selling with $0?","Make me a study plan","Ways to earn with my phone"].map(x=>`<button class="chip" data-n="${x}">${x}</button>`).join("")}</div><div id="nl" aria-live="polite"></div><label for="ni">Message</label><input id="ni" placeholder="Ask Jeevanom-IQ anything" maxlength="400"><button class="btn" data-n="__send">Send</button>`;
+ neoMode();neoDraw();$("#ni").onkeydown=e=>{if(e.key==="Enter")neoSend($("#ni").value)}}
+async function neoMode(){NEO.s=sb&&me?async(p,o)=>{const r=await sb.functions.invoke("iq",{body:{messages:[{role:"user",content:p}]}});if(r.error)throw r.error;const t=(r.data&&r.data.reply)||"";if(o&&o.onText)o.onText({text:t});return{text:t}}:null;const e=$("#nm");if(e)e.textContent=NEO.s?"Online · Jeevanom-IQ cloud":"Offline mode · basic answers"}
+function neoDraw(){const e=$("#nl");if(!e)return;e.innerHTML=NEO.log.map(m=>`<article class="card"><span class="tag">${m.r}</span><p style="white-space:pre-wrap">${esc(m.t)}</p></article>`).join("")}
+async function neoSend(t){t=(t||"").trim();if(!t||NEO.busy)return;NEO.busy=true;const i=$("#ni");if(i)i.value="";
+ NEO.log.push({r:"You",t});NEO.log.push({r:"Jeevanom-IQ",t:"…"});neoDraw();const m=NEO.log[NEO.log.length-1];
+ try{if(NEO.s){const h=NEO.log.slice(-9,-1).map(x=>x.r+": "+x.t).join("\n");const r=await NEO.s(NP+"\n\nConversation so far:\n"+h+"\nJeevanom-IQ:",{modelTier:"quick",onText:({text})=>{m.t=text;neoDraw()}});m.t=r.text}else m.t=neoLocal(t)}catch(e){m.t=neoLocal(t)}
+ NEO.busy=false;neoDraw()}
+function neoLocal(t){const l=t.toLowerCase();
+ if(/^(hi|hello|hey)\b/.test(l))return "Hello"+(user?", "+user:"")+"! I can help you find free opportunities, start selling, or study. What do you need?";
+ if(/scholar|fund|grant|opportunit|free|course|learn|hackathon|intern/.test(l)){const w=l.split(/\W+/).filter(x=>x.length>3),h=OPP.filter(o=>w.some(x=>(o[0]+" "+o[1]+" "+o[2]).toLowerCase().includes(x))),r=(/scholar/.test(l)?OPP.filter(o=>o[1]==="Scholarship"):h.length?h:OPP).slice(0,3);return "Options to check:\n"+r.map(o=>"• "+o[0]+" ("+o[1]+"): "+o[2]+"\n"+o[3]).join("\n")+"\nConfirm deadlines on each official site."}
+ if(/sell|market|price|earn|money|income|hustle|capital/.test(l))return "You can start with $0:\n1. Pick something you already have: notes, typing, design or tutoring.\n2. Open Market and add a listing with a photo.\n3. Share it on your WhatsApp status and class groups.\n4. Use Promote to write your post.\nStart small, price fairly, and ask your first buyers for feedback.";
+ if(/study|exam|note|revise|plan/.test(l))return "Try this: paste your notes in Study, read the Summary, drill the Cards, then take the Quiz. Study in 25-minute blocks with the focus timer and a 5-minute break between them.";
+ if(/data|typing|entry|clean/.test(l))return "Open Data, paste your rows, and clean them before handing work to a client. Clean files are what get you paid again.";
+ return "I can help with free scholarships, courses and tools, selling with no money, study plans, and data entry. Try a prompt button above. Sign in and get online for my full answers."}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(!b)return;neoSend(b.dataset.n==="__send"?$("#ni").value:b.dataset.n)});
+
+const fromLink=/type=(signup|email|magiclink)|access_token|[?&]code=/.test(location.hash+location.search);
+const CFG=window.CAMPUS_CONFIG||{},sb=(CFG.SUPABASE_URL&&CFG.SUPABASE_KEY&&window.supabase)?supabase.createClient(CFG.SUPABASE_URL,CFG.SUPABASE_KEY):null;
+const siteUrl=()=>CFG.SITE_URL||(location.origin+location.pathname);
+let me=null,recov=false;
+if(sb)sb.auth.onAuthStateChange(ev=>{if(ev==="PASSWORD_RECOVERY"){recov=true;if($("#app")&&$("#app").innerHTML)newPwView()}});
+async function loadMe(){if(!sb)return;const {data:{session}}=await sb.auth.getSession();me=session?session.user:null;
+ if(me){const p=await sb.from("profiles").select("username").eq("id",me.id).single();user=p.data?p.data.username:"student";const r=await sb.from("saved_opportunities").select("opportunity");saved.clear();(r.data||[]).forEach(x=>saved.add(x.opportunity))}else user=""}
+function gate(){return sb?gateSb():gateLocal()}
+function gateSb(){
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:64%;top:6%;width:90px"></span><span class="hx" aria-hidden="true" style="left:10%;top:80%;width:100px"></span><div class="in"><small>Sign in</small><h1>Hello</h1><p class="tl">join CampusHub free</p><label for="em" style="display:block;margin-top:18px;color:#fff">Email</label><input id="em" type="email" autocomplete="email"><label for="pw" style="color:#fff">Password (8 or more characters)</label><input id="pw" type="password" autocomplete="current-password"><label for="un" style="color:#fff">Username (new accounts)</label><input id="un" maxlength="20"><p id="um" class="bad" role="alert"></p><div class="row"><button class="btn" data-a="sbIn">Sign in</button><button class="btn alt" data-a="sbUp" style="color:#fff;border-color:#fff">Create account</button></div><button class="lnk" data-a="sbForgot" style="color:#B8BAC6">Forgot password?</button></div></section>`}
+async function sbAuth(up){const em=$("#em").value.trim(),pw=$("#pw").value,un=$("#un").value.trim(),m=$("#um");m.textContent="";
+ if(!em||pw.length<8){m.textContent="Enter your email and a password of 8 or more characters.";return}
+ if(up&&un.length<2){m.textContent="Choose a username of 2 to 20 characters.";return}
+ const ru=siteUrl();
+ const r=up?await sb.auth.signUp({email:em,password:pw,options:{data:{username:un},emailRedirectTo:ru}}):await sb.auth.signInWithPassword({email:em,password:pw});
+ if(r.error){if(/not confirmed/i.test(r.error.message)){verifyView(em);return}m.textContent=r.error.message;return}
+ if(up&&r.data.user&&r.data.user.identities&&r.data.user.identities.length===0){m.textContent="That email already has an account. Try signing in.";return}
+ if(up&&!r.data.session){verifyView(em);return}
+ await loadMe();tab=0;view()}
+const sbIn=()=>sbAuth(false),sbUp=()=>sbAuth(true);
+let pendEm="",cool=0;
+function verifyView(em){pendEm=em;
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:64%;top:6%;width:90px"></span><span class="hx" aria-hidden="true" style="left:10%;top:84%;width:100px"></span><div class="in"><small>Almost there</small><h1>Verify</h1><p class="tl">check your email</p><p style="color:#fff;margin-top:18px">We sent a verification link to <b>${esc(em)}</b>. Open it on this phone to confirm your account. If you can’t see it, check your spam folder.</p><p id="um" class="ok" role="status"></p><div class="row"><button class="btn" id="rs" data-a="sbResend">Resend email</button><button class="btn alt" data-a="sbBack" style="color:#fff;border-color:#fff">I verified, sign in</button></div></div></section>`}
+async function sbResend(){const m=$("#um"),b=$("#rs");if(!pendEm||cool>0)return;
+ const r=await sb.auth.resend({type:"signup",email:pendEm,options:{emailRedirectTo:siteUrl()}});
+ if(r.error){m.className="bad";m.textContent=r.error.message;return}
+ m.className="ok";m.textContent="Sent again. It can take a minute.";cool=60;b.disabled=true;
+ const t=setInterval(()=>{cool--;if(b.isConnected)b.textContent=cool>0?"Resend in "+cool+"s":"Resend email";if(cool<=0){clearInterval(t);if(b.isConnected)b.disabled=false}},1000)}
+function sbBack(){gateSb()}
+function forgotView(){
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:64%;top:6%;width:90px"></span><span class="hx" aria-hidden="true" style="left:10%;top:84%;width:100px"></span><div class="in"><small>Reset password</small><h1>Reset</h1><p class="tl">we’ll email you a link</p><label for="em" style="display:block;margin-top:18px;color:#fff">Email</label><input id="em" type="email" autocomplete="email"><p id="um" class="ok" role="status"></p><div class="row"><button class="btn" data-a="sbSendReset">Send reset link</button><button class="btn alt" data-a="sbBack" style="color:#fff;border-color:#fff">Back</button></div></div></section>`}
+const sbForgot=forgotView;
+async function sbSendReset(){const em=$("#em").value.trim(),m=$("#um");m.className="bad";
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){m.textContent="Enter a valid email address.";return}
+ const r=await sb.auth.resetPasswordForEmail(em,{redirectTo:siteUrl()});
+ if(r.error&&!/not found/i.test(r.error.message)){m.textContent=r.error.message;return}
+ m.className="ok";m.textContent="If that email has an account, a reset link is on its way. Check your spam folder too."}
+function newPwView(){
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:64%;top:6%;width:90px"></span><span class="hx" aria-hidden="true" style="left:10%;top:84%;width:100px"></span><div class="in"><small>Almost done</small><h1>New</h1><p class="tl">choose a new password</p><label for="p1" style="display:block;margin-top:18px;color:#fff">New password (8 or more characters)</label><input id="p1" type="password" autocomplete="new-password"><label for="p2" style="color:#fff">Repeat password</label><input id="p2" type="password" autocomplete="new-password"><p id="um" class="bad" role="alert"></p><button class="btn" data-a="sbSetPw">Update password</button></div></section>`}
+async function sbSetPw(){const a=$("#p1").value,b=$("#p2").value,m=$("#um");
+ if(a.length<8){m.textContent="Use 8 or more characters.";return}
+ if(a!==b){m.textContent="The two passwords do not match.";return}
+ const r=await sb.auth.updateUser({password:a});
+ if(r.error){m.textContent=r.error.message;return}
+ recov=false;history.replaceState(null,"",location.pathname);await loadMe();toast("Password updated. You are signed in.");tab=0;view()}
+function toast(t){const e=document.createElement("div");e.setAttribute("role","status");e.textContent=t;e.style.cssText="position:fixed;left:16px;right:16px;top:calc(12px + env(safe-area-inset-top,0px));z-index:20;background:var(--pri);color:var(--onpri);padding:14px 16px;border-radius:12px;font-weight:700;text-align:center";document.body.appendChild(e);setTimeout(()=>e.remove(),6000)}
+function v1(){return sb?v1Sb():v1Local()}
+async function v1Sb(){$("#app").innerHTML=`<p class="sub">Loading listings…</p>`;
+ const {data}=await sb.from("listings").select("id,owner,title,price,whatsapp,media_url,media_type").order("created_at",{ascending:false}).limit(50);
+ listings=(data||[]).map(r=>({id:r.id,t:r.title,p:r.price,n:r.whatsapp,img:r.media_type==="image"?r.media_url:"",vid:r.media_type==="video"?r.media_url:"",mine:!!me&&r.owner===me.id}));v1Local()}
+function add(){return sb?addSb():addLocal()}
+function del(b){return sb?delSb(b):delLocal(b)}
+async function addSb(){const t=$("#lt").value.trim(),p=$("#lp").value.trim(),n=$("#ln").value.replace(/\D/g,""),m=$("#lm");
+ if(!t||!p||n.length<7||n.length>15){m.textContent="Add a title, a price, and a WhatsApp number with country code.";return}
+ if(!me){m.textContent="Sign in first.";return}
+ m.textContent="Saving…";let url=null,type=null;
+ if(M.file){const ext=(M.file.name.split(".").pop()||"bin").toLowerCase().replace(/[^a-z0-9]/g,""),path=me.id+"/"+Date.now()+"."+ext;
+  const up=await sb.storage.from("listing-media").upload(path,M.file,{contentType:M.file.type});
+  if(up.error){m.textContent="Upload failed: "+up.error.message;return}
+  url=sb.storage.from("listing-media").getPublicUrl(path).data.publicUrl;type=M.file.type.startsWith("video/")?"video":"image"}
+ const r=await sb.from("listings").insert({owner:me.id,title:t,price:p,whatsapp:n,media_url:url,media_type:type});
+ if(r.error){m.textContent=r.error.message;return}
+ M={};v1()}
+async function delSb(b){const l=listings[+b.dataset.i];if(!l||!l.id)return;await sb.from("listings").delete().eq("id",l.id);v1()}
+async function syncSave(name,on){if(!sb||!me)return;if(on)await sb.from("saved_opportunities").insert({user_id:me.id,opportunity:name});else await sb.from("saved_opportunities").delete().eq("user_id",me.id).eq("opportunity",name)}
+function cp(txt,b){navigator.clipboard.writeText(txt).then(()=>b.textContent="Copied",()=>b.textContent="Copy blocked: select the text")}
+document.addEventListener("click",e=>{
+ const b=e.target.closest("button");if(!b)return;const d=b.dataset;
+ if(d.t!==undefined){tab=+d.t;view()}
+ else if(d.f){flt=d.f;list()}
+ else if(d.s){saved.has(d.s)?saved.delete(d.s):saved.add(d.s);sv("saved",[...saved]);syncSave(d.s,saved.has(d.s));list()}
+ else if(d.c){cp(document.getElementById(d.c).textContent,b)}
+ else if(d.a){({add,del,chk,gen,login,out,theme,dl,sbIn,sbUp,sbResend,sbBack,sbForgot,sbSendReset,sbSetPw,focusq:()=>$("#q").focus()})[d.a](b)}});
+(sb?loadMe().then(()=>{if(recov){newPwView();return}if(me&&fromLink){toast("Email verified. Welcome to CampusHub!");history.replaceState(null,"",location.pathname)}view()}):view());
+</script></body></html>
