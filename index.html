@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob: https://*.supabase.co; media-src 'self' blob: https://*.supabase.co; connect-src 'self' https://*.supabase.co; object-src 'none'; base-uri 'self'; form-action 'self'">
 <title>CampusHub</title>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@600;800&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
@@ -43,6 +44,14 @@ textarea{min-height:140px}
 pre{white-space:pre-wrap;word-break:break-word;font:inherit;margin:6px 0}
 .ok{color:var(--ok);font-weight:700}.bad{color:var(--bad)}
 .note{font-size:14px;color:var(--mut);margin-top:20px}
+.hero .hi{margin:0 0 4px;font:800 22px Geist,"Helvetica Neue",Arial,sans-serif;color:#fff}
+.hero h1 .ln{display:block}.hero h1 .ch{display:inline-block}
+.hero h1 .hub{display:inline-block;margin-top:8px;background:#F5B700;color:#171717;padding:0 .16em;border-radius:.14em;transform:rotate(-3deg);box-shadow:0 0 40px rgba(245,183,0,.5);text-shadow:none}
+.tick{overflow:hidden;white-space:nowrap;margin:-8px 0 18px;color:var(--mut);font-size:13px;letter-spacing:.08em;text-transform:uppercase}
+.trk{display:inline-block;will-change:transform}.trk span{margin-right:28px}
+.stats{display:flex;gap:10px;margin-bottom:22px}.stats div{flex:1;background:var(--surf);border:1px solid var(--line);border-radius:14px;padding:12px}.stats b{display:block;font:800 30px Geist,sans-serif}.stats span{font-size:13px;color:var(--mut)}
+.btn,.chip,.lnk{transition:transform .15s ease,opacity .15s}.btn:active,.chip:active{transform:scale(.95)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--surf);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
 nav button{flex:1;font:inherit;font-size:13px;font-weight:700;color:var(--mut);background:none;border:0;border-top:4px solid transparent;padding:14px 2px;min-height:56px;cursor:pointer}
 nav button[aria-current=page]{color:var(--pri);border-top-color:var(--acc)}
@@ -58,7 +67,7 @@ const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}};
 const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
-const T=["Explore","Market","Data","Promote","Study","IQ"];
+const NAV=[[0,"Explore"],[6,"Earn"],[1,"Market"],[4,"Study"],[5,"IQ"]];
 const OPP=[
 ["Chevening Scholarships","Scholarship","UK government scholarships for a one-year master’s degree. Open to applicants from many countries.","https://www.chevening.org"],
 ["Fulbright Program","Scholarship","US government exchange awards for study, research and teaching. Rules differ by country.","https://fulbrightprogram.org"],
@@ -80,17 +89,17 @@ let user=ld("user","");document.documentElement.dataset.theme=ld("theme","dark")
 function view(){
  $("#who").innerHTML=user?`<button class="lnk" data-a="theme">Light or dark</button><button class="lnk" data-a="out">Sign out</button>`:"";
  if(!user){$("#nav").innerHTML="";gate();motion();return}
- $("#nav").innerHTML=T.map((t,i)=>`<button data-t="${i}" ${i===tab?'aria-current="page"':""}>${t}</button>`).join("");
- [v0,v1,v2,v3,v4,v5][tab]();scrollTo(0,0);motion()}
+ $("#nav").innerHTML=NAV.map(([i,t])=>`<button data-t="${i}" ${(i===tab||(i===6&&(tab===2||tab===3)))?'aria-current="page"':""}>${t}</button>`).join("");
+ [v0,v1,v2,v3,v4,v5,v6][tab]();scrollTo(0,0);motion()}
 
 function v0(){
- $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:62%;top:6%;width:96px"></span><span class="hx" aria-hidden="true" style="left:8%;top:20%;width:48px"></span><span class="hx" aria-hidden="true" style="left:16%;top:76%;width:110px"></span><div class="in"><small>Hello, ${esc(user)}</small><h1>Campus</h1><p class="tl">learn, earn, sell for free</p><div class="lk"><button data-a="focusq">Find opportunities</button><button data-t="1">Start selling</button></div></div></section><h2 style="font-size:24px">Opportunities that cost nothing to try</h2><p class="sub">Save the ones you want, then check each site for current deadlines.</p><label for="q">Search</label><input id="q" type="search" placeholder="Try: scholarship"><div class="chips" id="chips"></div><div id="list"></div><p class="note">Saved items stay on this device. Always confirm details on the official site.</p>`;
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:62%;top:6%;width:96px"></span><span class="hx" aria-hidden="true" style="left:8%;top:20%;width:48px"></span><span class="hx" aria-hidden="true" style="left:16%;top:76%;width:110px"></span><div class="in"><p class="hi">Hello, ${esc(user)}</p><small>Welcome to</small><h1 aria-label="Campus Hub"><span class="ln" aria-hidden="true">${[..."Campus"].map(c=>`<span class="ch">${c}</span>`).join("")}</span><span class="hub" aria-hidden="true">Hub</span></h1><p class="tl">learn, earn, sell for free</p><div class="lk"><button data-a="focusq">Find opportunities</button><button data-t="1">Start selling</button></div></div></section><div class="tick" aria-hidden="true"><div class="trk">${[...OPP,...OPP].map(o=>`<span>${o[0]}</span>`).join("")}</div></div><div class="stats"><div><b data-count="${OPP.length}">0</b><span>free opportunities</span></div><div><b data-count="8">0</b><span>study tools</span></div><div><b>$0</b><span>to start</span></div></div><h2 style="font-size:24px">Opportunities that cost nothing to try</h2><p class="sub">Save the ones you want, then check each site for current deadlines.</p><label for="q">Search</label><input id="q" type="search" placeholder="Try: scholarship"><div class="chips" id="chips"></div><div id="list"></div><p class="note">Saved items stay on this device. Always confirm details on the official site.</p>${(window.CAMPUS_CONFIG||{}).CONTACT_EMAIL?`<article class="card"><span class="tag">For sponsors</span><h3>Reach students directly</h3><p>Universities, NGOs, scholarship programs and student-focused brands can feature an opportunity here, with a clear Sponsored label and a click report.</p><div class="row"><a class="btn alt" href="mailto:${esc((window.CAMPUS_CONFIG||{}).CONTACT_EMAIL)}?subject=${encodeURIComponent("Sponsor CampusHub")}">Partner with us</a></div></article>`:""}`;
  $("#q").value=q;$("#q").oninput=e=>{q=e.target.value;list()};list()}
 function list(){
  const F=["All","Saved","Scholarship","Free tools","Learning","Compete"];
  $("#chips").innerHTML=F.map(f=>`<button class="chip" data-f="${f}" aria-pressed="${f===flt}">${f}</button>`).join("");
  const r=OPP.filter(o=>(flt==="All"||(flt==="Saved"?saved.has(o[0]):o[1]===flt))&&(o[0]+o[1]+o[2]).toLowerCase().includes(q.toLowerCase()));
- $("#list").innerHTML=r.length?r.map(o=>`<article class="card"><span class="tag">${o[1]}</span><h3>${o[0]}</h3><p>${o[2]}</p><div class="row"><a class="btn" href="${o[3]}" target="_blank" rel="noopener">Open site</a><button class="btn alt" data-s="${o[0]}">${saved.has(o[0])?"Saved":"Save"}</button></div></article>`).join(""):`<p class="sub">Nothing matches. Clear the search or pick another filter.</p>`}
+ $("#list").innerHTML=r.length?r.map(o=>`<article class="card">${o[4]?`<span class="tag">Sponsored${o[5]?" · "+esc(o[5]):""}</span> `:""}<span class="tag">${esc(o[1])}</span><h3>${esc(o[0])}</h3><p>${esc(o[2])}</p><div class="row"><a class="btn" href="${esc(o[3])}" data-oid="${o[6]?esc(o[6]):""}" target="_blank" rel="noopener">Open site</a><button class="btn alt" data-s="${esc(o[0])}">${saved.has(o[0])?"Saved":"Save"}</button></div></article>`).join(""):`<p class="sub">Nothing matches. Clear the search or pick another filter.</p>`;r.forEach(o=>{if(o[4]&&o[6])track(o[6],"view")});reveal()}
 
 function v1Local(){
  const ex=[{t:"Example: Exam revision notes pack",p:"$3",x:1},{t:"Example: Typing and data entry, per page",p:"$1",x:1}];
@@ -100,7 +109,7 @@ function v1Local(){
  <label for="lp">Price</label><input id="lp" placeholder="$2 or 500 naira">
  <label for="ln">Your WhatsApp number with country code, digits only</label><input id="ln" inputmode="numeric" placeholder="2348012345678">
  <label for="mf">Photo or video (optional)</label><input id="mf" type="file" accept="image/*,video/*"><div id="mp"></div><p id="lm" class="bad" role="alert"></p><button class="btn" data-a="add">Add listing</button></div>
- ${all.map((l,i)=>`<article class="card"><span class="tag">${l.x?"Example":l.mine===false?"Seller":"Your listing"}</span><h3>${esc(l.t)}</h3>${l.img?`<img src="${l.img}" alt="${esc(l.t)}" style="width:100%;border-radius:10px;margin:8px 0">`:""}${l.vid?`<video src="${l.vid}" controls playsinline style="width:100%;border-radius:10px;margin:8px 0"></video>`:""}<p>${esc(l.p)}</p>${l.x?"":`<div class="row">${l.mine===false?`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/${l.n}?text=${encodeURIComponent("Hi, I am interested in: "+l.t)}">Message seller</a>`:`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(l.t+" - "+l.p+". Order on WhatsApp: https://wa.me/"+l.n)}">Share on WhatsApp</a><button class="btn alt" data-a="del" data-i="${i}">Remove</button>`}</div>`}</article>`).join("")}
+ ${all.map((l,i)=>`<article class="card"><span class="tag">${l.x?"Example":l.mine===false?"Seller":"Your listing"}</span><h3>${esc(l.t)}</h3>${su(l.img)?`<img src="${su(l.img)}" alt="${esc(l.t)}" style="width:100%;border-radius:10px;margin:8px 0">`:""}${su(l.vid)?`<video src="${su(l.vid)}" controls playsinline style="width:100%;border-radius:10px;margin:8px 0"></video>`:""}<p>${esc(l.p)}</p>${l.x?"":`<div class="row">${l.mine===false?`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/${l.n}?text=${encodeURIComponent("Hi, I am interested in: "+l.t)}">Message seller</a>`:`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(l.t+" - "+l.p+". Order on WhatsApp: https://wa.me/"+l.n)}">Share on WhatsApp</a><button class="btn alt" data-a="del" data-i="${i}">Remove</button>`}</div>`}</article>`).join("")}
  <p class="note">Listings are saved on this device. A shared marketplace where other students see them needs the backend in the build plan.</p>`;pre="";mediaUp()}
 function addLocal(){
  const t=$("#lt").value.trim(),p=$("#lp").value.trim(),n=$("#ln").value.replace(/\D/g,"");
@@ -150,11 +159,6 @@ function out(){if(sb){sb.auth.signOut().then(()=>{me=null;user="";saved.clear();
 function theme(){const t=document.documentElement.dataset.theme==="light"?"dark":"light";document.documentElement.dataset.theme=t;sv("theme",t)}
 function dlup(){window.claude&&claude.use("downloads").then(d=>{if(d&&$("#csv")&&$("#dlb"))$("#dlb").innerHTML=`<button class="btn" data-a="dl">Download CSV</button>`}).catch(()=>{})}
 async function dl(){try{const d=await claude.use("downloads");await d.save({filename:"clean-data.csv",data:"name,phone,email\n"+$("#csv").textContent})}catch(e){}}
-function motion(){
- if(!window.gsap||!$(".hero")||matchMedia("(prefers-reduced-motion: reduce)").matches)return;
- gsap.from(".hero .in > *",{y:18,opacity:0,duration:.7,stagger:.1,ease:"power3.out"});
- document.querySelectorAll(".hx").forEach((e,i)=>gsap.to(e,{y:i%2?-14:14,x:i%2?8:-8,rotation:i%2?25:-25,duration:3+i,repeat:-1,yoyo:true,ease:"sine.inOut"}));
- gsap.to(".hero h1",{textShadow:"0 0 44px rgba(245,183,0,.45)",duration:2.4,repeat:-1,yoyo:true,ease:"sine.inOut"})}
 const Z={sub:"notes",text:ld("notes",""),len:3,deck:[],flip:false,done:false,qs:[],qi:0,sc:0,ans:null,src:"notes",rec:null,ai:"ask"};
 const SUBS=[["notes","Notes"],["sum","Summary"],["cards","Cards"],["quiz","Quiz"],["map","Map"],["listen","Listen"],["export","Export"],["ai","Ask AI"]];
 const SW=new Set("about after again also because before being between could does during each every from have having into more most other over same should some such than that their them then there these they this those through under very were what when where which while with would your".split(" "));
@@ -248,11 +252,11 @@ const NP="You are Jeevanom-IQ, the friendly AI guide inside CampusHub, an app fo
 function v5(){
  $("#app").innerHTML=`<h1>Jeevanom-IQ</h1><p class="sub">Your campus guide. Ask about scholarships, earning with no capital, selling, or studying.</p><span class="tag" id="nm">Checking mode…</span><div class="chips">${["Find me a scholarship","How do I start selling with $0?","Make me a study plan","Ways to earn with my phone"].map(x=>`<button class="chip" data-n="${x}">${x}</button>`).join("")}</div><div id="nl" aria-live="polite"></div><label for="ni">Message</label><input id="ni" placeholder="Ask Jeevanom-IQ anything" maxlength="400"><button class="btn" data-n="__send">Send</button>`;
  neoMode();neoDraw();$("#ni").onkeydown=e=>{if(e.key==="Enter")neoSend($("#ni").value)}}
-async function neoMode(){NEO.s=sb&&me?async(p,o)=>{const r=await sb.functions.invoke("iq",{body:{messages:[{role:"user",content:p}]}});if(r.error)throw r.error;const t=(r.data&&r.data.reply)||"";if(o&&o.onText)o.onText({text:t});return{text:t}}:null;const e=$("#nm");if(e)e.textContent=NEO.s?"Online · Jeevanom-IQ cloud":"Offline mode · basic answers"}
+async function neoMode(){NEO.s=sb&&me?async(p,o)=>{const r=await sb.functions.invoke("iq",{body:{messages:[{role:"user",content:p}]}});if(r.error){let m="";try{m=(await r.error.context.json()).error||""}catch(e){}throw new Error(m||"unavailable")}const t=(r.data&&r.data.reply)||"";if(o&&o.onText)o.onText({text:t});return{text:t}}:null;const e=$("#nm");if(e)e.textContent=NEO.s?"Online · Jeevanom-IQ cloud":"Offline mode · basic answers"}
 function neoDraw(){const e=$("#nl");if(!e)return;e.innerHTML=NEO.log.map(m=>`<article class="card"><span class="tag">${m.r}</span><p style="white-space:pre-wrap">${esc(m.t)}</p></article>`).join("")}
 async function neoSend(t){t=(t||"").trim();if(!t||NEO.busy)return;NEO.busy=true;const i=$("#ni");if(i)i.value="";
  NEO.log.push({r:"You",t});NEO.log.push({r:"Jeevanom-IQ",t:"…"});neoDraw();const m=NEO.log[NEO.log.length-1];
- try{if(NEO.s){const h=NEO.log.slice(-9,-1).map(x=>x.r+": "+x.t).join("\n");const r=await NEO.s(NP+"\n\nConversation so far:\n"+h+"\nJeevanom-IQ:",{modelTier:"quick",onText:({text})=>{m.t=text;neoDraw()}});m.t=r.text}else m.t=neoLocal(t)}catch(e){m.t=neoLocal(t)}
+ try{if(NEO.s){const h=NEO.log.slice(-9,-1).map(x=>x.r+": "+x.t).join("\n");const r=await NEO.s(NP+"\n\nConversation so far:\n"+h+"\nJeevanom-IQ:",{modelTier:"quick",onText:({text})=>{m.t=text;neoDraw()}});m.t=r.text}else m.t=neoLocal(t)}catch(e){m.t=/limit/i.test((e&&e.message)||"")?e.message:neoLocal(t)}
  NEO.busy=false;neoDraw()}
 function neoLocal(t){const l=t.toLowerCase();
  if(/^(hi|hello|hey)\b/.test(l))return "Hello"+(user?", "+user:"")+"! I can help you find free opportunities, start selling, or study. What do you need?";
@@ -272,10 +276,14 @@ async function loadMe(){if(!sb)return;const {data:{session}}=await sb.auth.getSe
  if(me){const p=await sb.from("profiles").select("username").eq("id",me.id).single();user=p.data?p.data.username:"student";const r=await sb.from("saved_opportunities").select("opportunity");saved.clear();(r.data||[]).forEach(x=>saved.add(x.opportunity))}else user=""}
 function gate(){return sb?gateSb():gateLocal()}
 function gateSb(){
- $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:64%;top:6%;width:90px"></span><span class="hx" aria-hidden="true" style="left:10%;top:80%;width:100px"></span><div class="in"><small>Sign in</small><h1>Hello</h1><p class="tl">join CampusHub free</p><label for="em" style="display:block;margin-top:18px;color:#fff">Email</label><input id="em" type="email" autocomplete="email"><label for="pw" style="color:#fff">Password (8 or more characters)</label><input id="pw" type="password" autocomplete="current-password"><label for="un" style="color:#fff">Username (new accounts)</label><input id="un" maxlength="20"><p id="um" class="bad" role="alert"></p><div class="row"><button class="btn" data-a="sbIn">Sign in</button><button class="btn alt" data-a="sbUp" style="color:#fff;border-color:#fff">Create account</button></div><button class="lnk" data-a="sbForgot" style="color:#B8BAC6">Forgot password?</button></div></section>`}
-async function sbAuth(up){const em=$("#em").value.trim(),pw=$("#pw").value,un=$("#un").value.trim(),m=$("#um");m.textContent="";
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:64%;top:6%;width:90px"></span><span class="hx" aria-hidden="true" style="left:10%;top:86%;width:100px"></span><div class="in"><small>Welcome back</small><h1>Hello</h1><p class="tl">sign in to continue</p><label for="em" style="display:block;margin-top:18px;color:#fff">Email</label><input id="em" type="email" autocomplete="email"><label for="pw" style="color:#fff">Password</label><input id="pw" type="password" autocomplete="current-password"><p id="um" class="bad" role="alert"></p><div class="row"><button class="btn" data-a="sbIn">Sign in</button></div><button class="lnk" data-a="sbForgot" style="color:#B8BAC6">Forgot password?</button><button class="lnk" data-a="sbSignup" style="color:#fff">New here? Create account</button></div></section>`}
+function signupView(){
+ $("#app").innerHTML=`<section class="hero"><span class="hx" aria-hidden="true" style="left:64%;top:6%;width:90px"></span><span class="hx" aria-hidden="true" style="left:10%;top:86%;width:100px"></span><div class="in"><small>Join CampusHub</small><h1>Join</h1><p class="tl">free for students</p><label for="em" style="display:block;margin-top:18px;color:#fff">Email</label><input id="em" type="email" autocomplete="email"><label for="pw" style="color:#fff">Password (8 or more characters)</label><input id="pw" type="password" autocomplete="new-password"><label for="p2" style="color:#fff">Repeat password</label><input id="p2" type="password" autocomplete="new-password"><label for="un" style="color:#fff">Username (shown as “Hello, name”)</label><input id="un" maxlength="20" autocomplete="nickname"><p id="um" class="bad" role="alert"></p><div class="row"><button class="btn" data-a="sbUp">Create account</button></div><button class="lnk" data-a="sbBack" style="color:#fff">Already have an account? Sign in</button></div></section>`}
+const sbSignup=signupView;
+async function sbAuth(up){const em=$("#em").value.trim(),pw=$("#pw").value,un=($("#un")||{value:""}).value.trim(),m=$("#um");m.textContent="";
  if(!em||pw.length<8){m.textContent="Enter your email and a password of 8 or more characters.";return}
  if(up&&un.length<2){m.textContent="Choose a username of 2 to 20 characters.";return}
+ if(up&&$("#p2")&&$("#p2").value!==pw){m.textContent="The two passwords do not match.";return}
  const ru=siteUrl();
  const r=up?await sb.auth.signUp({email:em,password:pw,options:{data:{username:un},emailRedirectTo:ru}}):await sb.auth.signInWithPassword({email:em,password:pw});
  if(r.error){if(/not confirmed/i.test(r.error.message)){verifyView(em);return}m.textContent=r.error.message;return}
@@ -328,6 +336,84 @@ async function addSb(){const t=$("#lt").value.trim(),p=$("#lp").value.trim(),n=$
  M={};v1()}
 async function delSb(b){const l=listings[+b.dataset.i];if(!l||!l.id)return;await sb.from("listings").delete().eq("id",l.id);v1()}
 async function syncSave(name,on){if(!sb||!me)return;if(on)await sb.from("saved_opportunities").insert({user_id:me.id,opportunity:name});else await sb.from("saved_opportunities").delete().eq("user_id",me.id).eq("opportunity",name)}
+const RM=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+let io=null;
+function motion(){
+ if(!window.gsap||RM())return;
+ gsap.globalTimeline.clear();
+ const h=$(".hero");
+ if(h){
+  const tl=gsap.timeline({defaults:{ease:"power3.out"}});
+  tl.from(".hero .hi,.hero small",{y:16,opacity:0,duration:.6,stagger:.1})
+    .from(".hero h1 .ch",{y:70,rotationX:-90,opacity:0,duration:.8,stagger:.05,ease:"back.out(1.7)",transformOrigin:"50% 100%"},"-=.3")
+    .from(".hero .hub",{scale:0,rotation:-25,opacity:0,duration:.9,ease:"elastic.out(1,.5)"},"-=.4")
+    .from(".hero .tl,.hero .lk,.hero .in>.row,.hero .in>input,.hero .in>label,.hero .in>.lnk",{y:14,opacity:0,duration:.5,stagger:.06},"-=.5");
+  gsap.to(".hero .hub",{boxShadow:"0 0 70px rgba(245,183,0,.8)",duration:1.6,repeat:-1,yoyo:true,ease:"sine.inOut"});
+  gsap.to(".hero .hub",{rotation:-1,duration:2.4,repeat:-1,yoyo:true,ease:"sine.inOut",delay:1.4});
+  gsap.to(".hero h1 .ln",{textShadow:"0 0 40px rgba(245,183,0,.55)",duration:2.4,repeat:-1,yoyo:true,ease:"sine.inOut"});
+  const hx=[...document.querySelectorAll(".hx")];
+  hx.forEach((e,i)=>gsap.to(e,{y:(i%2?-1:1)*(16+i*4),rotation:i%2?180:-180,scale:1+(i%2?.25:-.25),opacity:.9,duration:4+i*1.3,repeat:-1,yoyo:true,ease:"sine.inOut"}));
+  const qx=hx.map((e,i)=>({q:gsap.quickTo(e,"x",{duration:.8,ease:"power3"}),d:(i+1)*14}));
+  const qc=gsap.quickTo(".hero .in","x",{duration:.8,ease:"power3"}),qy=gsap.quickTo(".hero .in","y",{duration:.8,ease:"power3"});
+  h.onpointermove=e=>{const r=h.getBoundingClientRect(),nx=(e.clientX-r.left)/r.width-.5,ny=(e.clientY-r.top)/r.height-.5;qx.forEach(o=>o.q(nx*o.d*2));qc(nx*-6);qy(ny*-6)};
+  h.onpointerleave=()=>{qx.forEach(o=>o.q(0));qc(0);qy(0)}}
+ const trk=$(".trk");if(trk)gsap.to(trk,{xPercent:-50,duration:40,ease:"none",repeat:-1});
+ document.querySelectorAll(".stats b[data-count]").forEach(b=>{const o={v:0};gsap.to(o,{v:+b.dataset.count,duration:1.6,ease:"power2.out",delay:.5,onUpdate:()=>{b.textContent=Math.round(o.v)}})});
+ reveal()}
+function reveal(){
+ if(!window.gsap||RM())return;if(io)io.disconnect();
+ const els=[...document.querySelectorAll("#app .card,#app .stats div")];
+ gsap.set(els,{y:28,opacity:0});
+ io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){io.unobserve(e.target);gsap.to(e.target,{y:0,opacity:1,duration:.6,ease:"power3.out",delay:Math.min(.25,(els.indexOf(e.target)%6)*.05)})}}),{threshold:.05});
+ els.forEach(e=>io.observe(e))}
+const su=u=>{const b=(window.CAMPUS_CONFIG||{}).SUPABASE_URL;return typeof u==="string"&&(/^(data:image\/|blob:)/.test(u)||(b&&u.startsWith(b+"/storage/")))?u:""};
+function SBX(){try{return typeof sb!=="undefined"&&sb&&sb.from?sb:null}catch(e){return null}}
+const SVC=[["CV and cover letter polish","Rewrite a student’s CV. You check the facts, tone and spelling."],["Flyers and social posts","Posters and captions for small shops near your campus."],["Data entry and cleaning","Clean customer lists and spreadsheets for small businesses."],["Transcription and translation","Turn voice notes and lectures into clean text, including local languages."],["Study notes pack","Turn your best notes into a pack classmates buy."],["Tutoring","Help juniors in a subject you are strong in."]];
+const EXG=[{t:"Example: Clean a 200-row customer list",d:"A shop owner needs duplicates and bad phone numbers removed.",b:"Agree a price",x:1},{t:"Example: 5 captions for a campus café",d:"Short captions and hashtags for a new menu.",b:"Agree a price",x:1}];
+let gigs=[],inc=ld("income",[]);
+function v6(){
+ $("#app").innerHTML=`<h1>Earn with skills clients trust.</h1><p class="sub">Free AI can write a first draft. Clients pay for someone who checks it, fixes it and delivers on time. Launch a service in two minutes, then find tasks below. Income is never guaranteed.</p>
+ <h2 style="font-size:22px;margin:6px 0 10px">Launch a service</h2>
+ ${SVC.map((s,i)=>`<article class="card"><h3>${s[0]}</h3><p>${s[1]}</p><div class="row"><button class="btn" data-e="svc" data-i="${i}">Launch this</button></div></article>`).join("")}
+ <article class="card"><span class="tag">Your workflow</span><p>1. Use free AI for a first draft. 2. Check every fact and fix the tone yourself. 3. Deliver on time and ask for a short review. Trust and speed are what clients pay for.</p><div class="row"><button class="btn alt" data-e="data">Clean data</button><button class="btn alt" data-e="promo">Write promo posts</button></div></article>
+ <h2 style="font-size:22px;margin:18px 0 6px">Open tasks</h2><p class="sub">Small businesses and students post paid tasks here. Message the poster on WhatsApp and agree the scope and price before you start.</p><div id="gl"></div>
+ <article class="card"><h3>Post a task</h3><label for="gt">Task title</label><input id="gt" maxlength="80"><label for="gd">What needs doing?</label><textarea id="gd" style="min-height:90px" maxlength="400"></textarea><label for="gb">Budget (optional)</label><input id="gb" maxlength="30" placeholder="e.g. 3,000 naira"><label for="gn">WhatsApp number with country code</label><input id="gn" inputmode="numeric" maxlength="15"><p id="gm" class="bad" role="alert"></p><button class="btn" data-e="gpost">Post task</button></article>
+ <h2 style="font-size:22px;margin:18px 0 10px">Income tracker</h2>
+ <article class="card"><div id="il"></div><label for="ic">Who paid you?</label><input id="ic" maxlength="40"><label for="ia">Amount (your own currency)</label><input id="ia" inputmode="decimal"><p id="im" class="bad" role="alert"></p><button class="btn alt" data-e="iadd">Add income</button><p class="note">Saved on this device only.</p></article>
+ <article class="card"><span class="tag">Stay safe</span><p>Never pay to get a gig. Agree the price and what you will deliver before you start. For bigger jobs ask for part payment first. Never share your password or bank details.</p></article>`;
+ gigsLoad();incDraw()}
+async function gigsLoad(){const c=SBX();
+ if(c){const {data}=await c.from("gigs").select("id,owner,title,details,budget,whatsapp").eq("status","open").order("created_at",{ascending:false}).limit(30);
+  gigs=(data||[]).map(r=>({id:r.id,t:r.title,d:r.details,b:r.budget,n:r.whatsapp,mine:!!(typeof me!=="undefined"&&me&&r.owner===me.id)}))}
+ else gigs=ld("gigs",[]);
+ gigsDraw()}
+function gigsDraw(){const e=$("#gl");if(!e)return;
+ e.innerHTML=[...gigs,...EXG].map((g,i)=>`<article class="card"><span class="tag">${g.x?"Example":g.mine?"Your task":"Open task"}</span><h3>${esc(g.t)}</h3><p>${esc(g.d||"")}</p><p><b>Budget:</b> ${esc(g.b||"Agree a price")}</p>${g.x?"":`<div class="row">${g.mine?`<button class="btn alt" data-e="gdel" data-i="${i}">Close task</button>`:`<a class="btn" target="_blank" rel="noopener" href="https://wa.me/${String(g.n).replace(/\D/g,"")}?text=${encodeURIComponent("Hi, I saw your task on CampusHub: "+g.t+". I can help. Here is what I will deliver and when:")}">Offer to help</a>`}</div>`}</article>`).join("");reveal()}
+async function gpost(){
+ const t=$("#gt").value.trim(),d=$("#gd").value.trim(),b=$("#gb").value.trim(),n=$("#gn").value.replace(/\D/g,""),m=$("#gm"),c=SBX();
+ if(t.length<5||d.length<10||n.length<7||n.length>15){m.textContent="Add a title, a short description, and a WhatsApp number with country code.";return}
+ if(c){if(!(typeof me!=="undefined"&&me)){m.textContent="Sign in first.";return}
+  const r=await c.from("gigs").insert({owner:me.id,title:t,details:d,budget:b||null,whatsapp:n});if(r.error){m.textContent=r.error.message;return}}
+ else{gigs.unshift({t,d,b,n,mine:true});sv("gigs",gigs.slice(0,30))}
+ ["gt","gd","gb","gn"].forEach(i=>{$("#"+i).value=""});m.textContent="";gigsLoad()}
+async function gdel(i){const g=gigs[i],c=SBX();if(!g)return;
+ if(c&&g.id)await c.from("gigs").delete().eq("id",g.id);else{gigs.splice(i,1);sv("gigs",gigs)}
+ gigsLoad()}
+function incDraw(){const e=$("#il");if(!e)return;const mo=new Date().toISOString().slice(0,7),tot=inc.filter(x=>x.d.startsWith(mo)).reduce((a,x)=>a+x.a,0);
+ e.innerHTML=`<p><b>This month:</b> ${tot.toLocaleString()}</p>`+inc.slice(0,6).map((x,i)=>`<p style="margin:4px 0;color:var(--mut)">${esc(x.d)} · ${esc(x.c)} · ${x.a.toLocaleString()} <button class="lnk" data-e="idel" data-i="${i}">remove</button></p>`).join("")}
+function iadd(){const c=$("#ic").value.trim(),a=parseFloat($("#ia").value);
+ if(!c||!(a>0)){$("#im").textContent="Add who paid you and an amount above zero.";return}
+ inc.unshift({c,a,d:new Date().toISOString().slice(0,10)});sv("income",inc.slice(0,200));$("#ic").value="";$("#ia").value="";$("#im").textContent="";incDraw()}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-e]");if(!b)return;const i=+b.dataset.i;
+ ({svc:()=>{pre=SVC[i][0];tab=1;view()},data:()=>{tab=2;view()},promo:()=>{tab=3;view()},gpost,gdel:()=>gdel(i),iadd,idel:()=>{inc.splice(i,1);sv("income",inc);incDraw()}})[b.dataset.e]()});
+const dev=(()=>{try{let x=localStorage.getItem("dev");if(!x){x=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("dev",x)}return x}catch(e){return "anonymous-device"}})();
+const seenT=new Set();
+function track(id,kind){const c=SBX();if(!c||!id)return;const k=id+kind;if(seenT.has(k))return;seenT.add(k);c.rpc("opp_track",{p_id:id,p_kind:kind,p_device:dev}).then(()=>{},()=>{})}
+const toO=r=>[r.name,r.kind,r.blurb,r.url,r.sponsored,r.sponsor_name,r.id];
+async function loadOpps(){const c=SBX();if(!c)return;
+ try{const {data}=await c.from("opportunities").select("id,name,kind,blurb,url,sponsored,sponsor_name").limit(80);
+  if(data&&data.length){const base=OPP.filter(o=>!o[6]);OPP.splice(0,OPP.length,...data.filter(r=>r.sponsored).map(toO),...base,...data.filter(r=>!r.sponsored).map(toO))}}catch(e){}}
+document.addEventListener("click",e=>{const a=e.target.closest("a[data-oid]");if(a&&a.dataset.oid)track(a.dataset.oid,"click")});
 function cp(txt,b){navigator.clipboard.writeText(txt).then(()=>b.textContent="Copied",()=>b.textContent="Copy blocked: select the text")}
 document.addEventListener("click",e=>{
  const b=e.target.closest("button");if(!b)return;const d=b.dataset;
@@ -335,6 +421,6 @@ document.addEventListener("click",e=>{
  else if(d.f){flt=d.f;list()}
  else if(d.s){saved.has(d.s)?saved.delete(d.s):saved.add(d.s);sv("saved",[...saved]);syncSave(d.s,saved.has(d.s));list()}
  else if(d.c){cp(document.getElementById(d.c).textContent,b)}
- else if(d.a){({add,del,chk,gen,login,out,theme,dl,sbIn,sbUp,sbResend,sbBack,sbForgot,sbSendReset,sbSetPw,focusq:()=>$("#q").focus()})[d.a](b)}});
-(sb?loadMe().then(()=>{if(recov){newPwView();return}if(me&&fromLink){toast("Email verified. Welcome to CampusHub!");history.replaceState(null,"",location.pathname)}view()}):view());
+ else if(d.a){({add,del,chk,gen,login,out,theme,dl,sbIn,sbUp,sbSignup,sbResend,sbBack,sbForgot,sbSendReset,sbSetPw,focusq:()=>$("#q").focus()})[d.a](b)}});
+(sb?Promise.all([loadMe(),loadOpps()]).then(()=>{if(recov){newPwView();return}if(me&&fromLink){toast("Email verified. Welcome to CampusHub!");history.replaceState(null,"",location.pathname)}view()}):view());
 </script></body></html>
