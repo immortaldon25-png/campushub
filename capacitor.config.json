@@ -1,6 +1,0 @@
-{
-  "appId": "com.jeevanom.campushub",
-  "appName": "CampusHub",
-  "webDir": "www",
-  "server": { "androidScheme": "https" }
-}
